@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -25,5 +26,12 @@ export class AuthService {
 
   login(username: string, password: string) {
     console.log(username, password);
+  }
+
+  validateCredentials(username: string, password: string) {
+    this.users.find(
+      (u) =>
+        u.username === username && bcrypt.compareSync(password, u.password),
+    );
   }
 }
