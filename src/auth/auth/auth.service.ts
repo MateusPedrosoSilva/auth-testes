@@ -32,6 +32,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       username: user.username,
+      role: user.role,
     };
     return this.jwtService.sign(payload);
   }
@@ -41,9 +42,9 @@ export class AuthService {
       (u) =>
         u.username === username && bcrypt.compareSync(password, u.password),
     );
-    return user;
-
     if (!user) {
+      throw new Error('User not found');
     }
+    return user;
   }
 }
