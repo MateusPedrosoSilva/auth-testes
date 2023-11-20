@@ -18,6 +18,6 @@ export class AuthController {
   @Get('test-auth')
   test(@Req() req) {
     console.log(req.user);
-    return { name: 'Mateus Pedroso' };
+    return { user: req.user };
   }
 }
