@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   const config = new DocumentBuilder()
-    // .addBearerAuth()
+    .addBearerAuth()
     .setTitle('Pesquisa de preço - Grupo Líder')
     .setDescription('API para projeto de pesquisa de preços do Grupo Líder')
     .setVersion(process.env.APP_VERSION)
