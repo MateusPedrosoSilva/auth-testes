@@ -3,13 +3,14 @@ import { AuthService } from './auth.service';
 import { JwtGuard } from './jwt.guard';
 import { Role } from './role.decorator';
 import { RoleGuard } from './role.guard';
+import { LoginDto } from './dto/login-dto';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() body) {
+  login(@Body() body: LoginDto) {
     return { token: this.authService.login(body.username, body.password) };
   }
 
