@@ -7,8 +7,8 @@ async function bootstrap() {
   app.enableCors();
   const config = new DocumentBuilder()
     // .addBearerAuth()
-    .setTitle('XMLs Grupo Líder')
-    .setDescription('API para projeto de XMLs do Grupo Líder')
+    .setTitle('Pesquisa de preço - Grupo Líder')
+    .setDescription('API para projeto de pesquisa de preços do Grupo Líder')
     .setVersion(process.env.APP_VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
