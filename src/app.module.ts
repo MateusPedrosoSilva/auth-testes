@@ -11,6 +11,7 @@ import { User } from './user/entities/user.entity';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
+      name: 'local-db',
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
       port: parseInt(process.env.POSTGRES_PORT),
