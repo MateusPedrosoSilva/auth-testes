@@ -27,4 +27,17 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async findUser(registrationNumber: number, password: string) {
+    const user = await this.localDb.query(
+      `select * from "user" u where u."registrationNumber" = ${registrationNumber} and u.password = '${password}'`,
+    );
+    if (!user) {
+      throw new HttpException(
+        'usuario ou senha incorretos',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return user;
+  }
 }

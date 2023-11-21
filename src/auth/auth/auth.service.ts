@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { UserService } from 'src/user/user.service';
 
 const users = [
   {
@@ -25,26 +26,34 @@ const users = [
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+  ) {}
 
-  login(username: string, password: string) {
-    const user = this.validateCredentials(username, password);
+  // login(username: string, password: string) {
+  async login(username: number, password: string) {
+    const user = await this.validateCredentials(username, password);
+    console.log(user);
     const payload = {
-      sub: user.id,
-      username: user.username,
-      role: user.role,
+      sub: user.registrationNumber,
+      username: user.userName,
+      // role: user.role,
     };
+    console.log(payload);
     return this.jwtService.sign(payload);
   }
 
-  validateCredentials(username: string, password: string) {
-    const user = users.find(
-      (u) =>
-        u.username === username && bcrypt.compareSync(password, u.password),
-    );
+  // validateCredentials(username: string, password: string) {
+  async validateCredentials(username: number, password: string) {
+    const user = await this.userService.findUser(username, password);
+    // const user = users.find(
+    //   (u) =>
+    //     u.username === username && bcrypt.compareSync(password, u.password),
+    // );
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
     }
-    return user;
+    return user[0];
   }
 }
